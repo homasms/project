@@ -554,6 +554,23 @@ sys_newOne(void)
             count++;
         }
     }
+
+    // sort processes by size using bubble sort
+    struct proc_info max;
+    for(int i=0;i<count;i++){
+        int temp=0;
+        max.memsize=-1;
+        max.pid=0;
+        for(int j=0;j<count-i;j++){
+            if(processes[j].memsize>max.memsize) {
+                max = processes[j];
+                temp=j;
+            }
+        }
+        processes[temp]=processes[count-i-1];
+        processes[count-i-1]=max;
+    }
+
     // we change pointer variable in code so no need to return anything special
     return  0;
 }
