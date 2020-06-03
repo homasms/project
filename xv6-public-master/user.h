@@ -1,5 +1,6 @@
 struct stat;
 struct rtcdate;
+struct proc_info;
 
 // system calls
 int fork(void);
@@ -24,7 +25,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 // user level definition of syscall
-int newOne(void);
+int newOne(struct proc_info *);
 
 // ulib.c
 int stat(const char*, struct stat*);

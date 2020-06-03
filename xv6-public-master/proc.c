@@ -535,7 +535,7 @@ procdump(void)
 
 // our function for finding running and runnable processes
 int
-sys_myprocessors(void)
+sys_newOne(void)
 {
     // pointer on all processes
     struct proc *p;

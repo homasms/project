@@ -14,7 +14,7 @@ struct cpu {
 struct proc_info {
     int pid;
     int memsize;
-}
+};
 
 extern struct cpu cpus[NCPU];
 extern int ncpu;
