@@ -532,3 +532,28 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+// our function for finding running and runnable processes
+int
+sys_myprocessors(void)
+{
+    // pointer on all processes
+    struct proc *p;
+    // pointer that we save running and runnable processes in it
+    struct proc_info * processes;
+    // receive a pointer as input, make changes and pass it as output,
+    // let pointer that define in user layer be used in kernel
+    argptr(0,(void*)&processes, sizeof(processes));
+    // add suitable processes to *processes
+    int count=0;
+    // copy for line from "procdump" function
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+        if(p->state == RUNNABLE || p->state == RUNNING){
+            processes[count].pid=p->pid;
+            processes[count].memsize=p->sz;
+            count++;
+        }
+    }
+    // we change pointer variable in code so no need to return anything special
+    return  0;
+}
