@@ -532,3 +532,8 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+void
+waitx(void){
+    // compute wait time
+}
