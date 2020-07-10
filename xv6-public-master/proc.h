@@ -10,14 +10,6 @@ struct cpu {
   struct proc *proc;           // The process running on this cpu or null
 };
 
-struct proc_info{
-    int pid;
-    float stime;
-    float etime;
-    float iotime;
-    float rtime;
-};
-
 extern struct cpu cpus[NCPU];
 extern int ncpu;
 
@@ -57,6 +49,7 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+  int stime, etime, rtime, wtime, iotime; //add new variables to compute required times
 };
 
 // Process memory is laid out contiguously, low addresses first:
