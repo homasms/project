@@ -46,6 +46,7 @@ trap(struct trapframe *tf)
     return;
   }
 
+
   switch(tf->trapno){
   case T_IRQ0 + IRQ_TIMER:
     if(cpuid() == 0){
@@ -53,6 +54,14 @@ trap(struct trapframe *tf)
       ticks++;
       wakeup(&ticks);
       release(&tickslock);
+
+        // update running and waiting time
+        if(proc) {
+            if (proc->state == RUNNING)
+                proc->rtime++;
+            else if (proc->state == SLEEPING)
+                proc->iotime++;
+        }
     }
     lapiceoi();
     break;

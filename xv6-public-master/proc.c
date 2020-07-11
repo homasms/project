@@ -543,7 +543,7 @@ procdump(void)
 }
 
 void
-waitx(void){
+waitx(int *wtime,int *rtime){
     // compute wait time
     struct proc *p;
     int havekids, pid;
@@ -558,6 +558,9 @@ waitx(void){
                 continue;
             havekids = 1;
             if(p->state == ZOMBIE){
+                // compute running and waiting time
+                *wtime = p->etime - p->stime - p->rtime - p->iotime;
+                *rtime = p->rtime;
                 // Found one.
                 pid = p->pid;
                 kfree(p->kstack);
