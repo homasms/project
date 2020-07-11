@@ -542,22 +542,23 @@ procdump(void)
   }
 }
 
-void
-waitx(int *wtime,int *rtime){
+int
+waitx(int *wtime,int *rtime) {
     // compute wait time
     struct proc *p;
-    int havekids, pid;
+    int pid;
     struct proc *curproc = myproc();
 
+    argptr(0, (char**)&wtime, sizeof(int));
     acquire(&ptable.lock);
-    for(;;){
+    for (;;) {
         // Scan through table looking for exited children.
-        havekids = 0;
-        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-            if(p->parent != curproc)
+        //havekids = 0;
+        for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+            if (p->parent != curproc)
                 continue;
-            havekids = 1;
-            if(p->state == ZOMBIE){
+            //havekids = 1;
+            if (p->state == ZOMBIE) {
                 // compute running and waiting time
                 *wtime = p->etime - p->stime - p->rtime - p->iotime;
                 *rtime = p->rtime;
@@ -576,3 +577,5 @@ waitx(int *wtime,int *rtime){
             }
 
         }
+    }
+}
