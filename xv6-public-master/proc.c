@@ -237,7 +237,6 @@ exit(void)
   struct proc *curproc = myproc();
   struct proc *p;
   int fd;
-
   if(curproc == initproc)
     panic("init exiting");
 
@@ -267,11 +266,12 @@ exit(void)
         wakeup1(initproc);
     }
   }
+  //cprintf("%d, %deee\n",p->pid, ticks);
 
-  // evaluate exit time
-  p->etime = ticks;
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
+  // evaluate exit time
+  curproc->etime = ticks;
   sched();
   panic("zombie exit");
 }
@@ -575,6 +575,7 @@ sys_waitx(int *wtime,int *rtime) {
                 *rtime = p->rtime;
                 cprintf("\n*****\n    Start Time: %d\n    End Time: %d\n    I/O Time: %d\n    Run Time: %d\n*****\n\n",
                         p->stime, p->etime, p->iotime, p->rtime);
+                //cprintf("%d\n", pid);
                 release(&ptable.lock);
                 return pid;
             }
